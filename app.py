@@ -6,6 +6,7 @@ from flask import ( Flask,
                     request,
                     render_template)
 
+ENV = os.environ.get('ENV', 'prod')
 API_KEY = os.environ.get('API_KEY')
 GOOGLE_VISION_API = 'https://vision.googleapis.com/v1/images:annotate?key={API_KEY}'.format(API_KEY=API_KEY)
 VRequestJSON = {
@@ -28,8 +29,16 @@ VRequestJSON = {
 
 UPLOAD_FOLDER = os.path.basename('uploads')
 STATIC_FOLDER = os.path.basename('templates')
+
 def make_http_call(json_data):
     return requests.post(GOOGLE_VISION_API, json=json_data)
+
+
+def base64fyImage(image):
+    print('Images is ', dir(image))
+    import base64
+    image_content = image.read()
+    return base64.b64encode(image_content)
 
 app = Flask(__name__, static_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -53,9 +62,17 @@ def test_sample_image():
 def vision_this():
     upload_file = request.files['image']
     filename = os.path.join(app.config['UPLOAD_FOLDER'], upload_file.filename)
-    print("File name is ", filename)
-    upload_file.save(filename)
+    # upload_file.save(filename)
+    print(base64fyImage(upload_file))
     return jsonify(VRequestJSON)
 
+
+def start_server():
+    DEBUG = False
+    if ENV == 'dev':
+        DEBUG = True
+    app.run(debug=DEBUG)
+
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    start_server()

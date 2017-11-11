@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 import os
 import requests
-from flask import Flask, jsonify, render_template
-from collections import namedtuple
-
-
-app = Flask(__name__)
+from flask import ( Flask,
+                    jsonify, 
+                    render_template)
 
 API_KEY = os.environ.get('API_KEY')
 GOOGLE_VISION_API = 'https://vision.googleapis.com/v1/images:annotate?key={API_KEY}'.format(API_KEY=API_KEY)
@@ -27,9 +25,12 @@ VRequestJSON = {
   ]
 }
 
+UPLOAD_FOLDER = os.path.basename('uploads')
 
 def make_http_call(json_data):
     return requests.post(GOOGLE_VISION_API, json=json_data)
+
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -48,7 +49,8 @@ def test_sample_image():
 
 @app.route('/v1/vision/', methods=['POST'])
 def vision_this():
-    pass
+    upload_file = 
 
 if __name__ == '__main__':
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.run(debug=True)

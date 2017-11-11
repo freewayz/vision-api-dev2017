@@ -27,16 +27,16 @@ VRequestJSON = {
 }
 
 UPLOAD_FOLDER = os.path.basename('uploads')
-
+STATIC_FOLDER = os.path.basename('templates')
 def make_http_call(json_data):
     return requests.post(GOOGLE_VISION_API, json=json_data)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
 
 @app.route('/v1/test/', methods=['GET'])

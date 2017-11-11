@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from collections import namedtuple
 
 
@@ -33,7 +33,7 @@ def make_http_call(json_data):
 
 @app.route('/')
 def index():
-    return 'Hello DevFest 2017'
+    return render_template('index.html')
 
 
 @app.route('/v1/test/', methods=['GET'])
@@ -44,6 +44,7 @@ def test_sample_image():
         print(http_response.json())
     
     return jsonify(http_response.json())
+
 
 
 if __name__ == '__main__':

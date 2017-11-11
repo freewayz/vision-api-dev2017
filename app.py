@@ -46,6 +46,9 @@ def test_sample_image():
     return jsonify(http_response.json())
 
 
+@app.route('/v1/vision/', methods=['POST'])
+def vision_this():
+    pass
 
 if __name__ == '__main__':
     app.run(debug=True)

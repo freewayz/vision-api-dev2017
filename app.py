@@ -3,6 +3,7 @@ import os
 import requests
 from flask import ( Flask,
                     jsonify, 
+                    request,
                     render_template)
 
 API_KEY = os.environ.get('API_KEY')
@@ -31,6 +32,7 @@ def make_http_call(json_data):
     return requests.post(GOOGLE_VISION_API, json=json_data)
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
@@ -49,8 +51,11 @@ def test_sample_image():
 
 @app.route('/v1/vision/', methods=['POST'])
 def vision_this():
-    upload_file = 
+    upload_file = request.files['image']
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], upload_file.filename)
+    print("File name is ", filename)
+    upload_file.save(filename)
+    return jsonify(VRequestJSON)
 
 if __name__ == '__main__':
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.run(debug=True)

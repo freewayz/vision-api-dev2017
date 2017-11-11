@@ -24,10 +24,25 @@
                 We read your image for you.
                 <strong>IM</strong>!
             </p>
-
             <form action="/v1/vision/" method="post" enctype="multipart/form-data">
-                Browse
-                <input <input type="file" name="image">
+                <div class="field">
+                        <div class="file is-danger has-name is-boxed">
+                          <label class="file-label">
+                            <input class="file-input" type="file" name="resume">
+                            <span class="file-cta">
+                              <span class="file-icon">
+                                <i class="fa fa-cloud-upload"></i>
+                              </span>
+                              <span class="file-label">
+                                Danger file…
+                              </span>
+                            </span>
+                            <span class="file-name">
+                             Waiting for image
+                            </span>
+                          </label>
+                        </div>
+                </div>
                 <div class="field is-grouped">
                     <div class="control">
                     <input type="submit" value="Vision Image" class="button is-link">
@@ -42,4 +57,5 @@
 </script>
 <script src="https://unpkg.com/vue"></script>
 <script src="/static/app.js"></script>
+
 </html>
